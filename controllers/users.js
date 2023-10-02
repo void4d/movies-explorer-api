@@ -47,10 +47,28 @@ function updateUser(req, res) {
   .then(() => res.status(200).send({ name, email }))
 }
 
+function login(req, res) {
+  const { email, password } = req.body;
+
+  return userSchema
+  .findOne({ email })
+  .select('+password')
+  .then((r) => {
+    bcrypt.compare(password. r.password, (error, isValid) => {
+      if (!isValid) {
+        console.log('Неверная почта или пароль')
+      }
+
+      return res.status(200).send('wha')
+    })
+  })
+}
+
 module.exports = {
   getUsers,
   getUserById,
   getMyProfile,
   createUser,
   updateUser,
+  login
 }
