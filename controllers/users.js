@@ -3,6 +3,8 @@ const userSchema = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+const { JWT_KEY = 'secret' } = process.env;
+
 function getUsers(req, res) {
   return userSchema
   .find()
@@ -59,7 +61,7 @@ function login(req, res) {
         console.log('Неверная почта или пароль')
       }
 
-      const token = jwt.sign({ id: r.id }, 'secretstring', { expiresIn: '7d' })
+      const token = jwt.sign({ id: r.id }, JWT_KEY, { expiresIn: '7d' })
 
       return res.status(200).send({ token })
     })
