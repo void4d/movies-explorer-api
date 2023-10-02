@@ -4,7 +4,8 @@ const { getUsers,
   getMyProfile,
   updateUser, } = require('../controllers/users');
 
-router.get('/users/me', getUsers);
+router.get('/users', getUsers)
+router.get('/users/me', getMyProfile);
 router.patch('/users/me', updateUser);
 
 module.exports = router;

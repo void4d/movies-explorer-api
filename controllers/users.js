@@ -59,7 +59,9 @@ function login(req, res) {
         console.log('Неверная почта или пароль')
       }
 
-      return res.status(200).send('wha')
+      const token = jwt.sign({ id: r.id }, 'secretstring', { expiresIn: '7d' })
+
+      return res.status(200).send({ token })
     })
   })
 }
