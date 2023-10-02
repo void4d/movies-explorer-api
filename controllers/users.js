@@ -56,7 +56,7 @@ function login(req, res) {
   .findOne({ email })
   .select('+password')
   .then((r) => {
-    bcrypt.compare(password. r.password, (error, isValid) => {
+    bcrypt.compare(password, r.password, (error, isValid) => {
       if (!isValid) {
         console.log('Неверная почта или пароль')
       }
