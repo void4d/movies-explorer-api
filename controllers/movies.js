@@ -1,36 +1,76 @@
 const movieSchema = require('../models/movie');
+const NotFoundError = require('../errors/not-found-err');
+const BadRequestError = require('../errors/bad-request-err');
+const ForbiddenError = require('../errors/forbidden-err');
 
-function getMovies(req, res) {
+function getMovies(req, res, next) {
   return movieSchema
-  .find({})
-  .then((r) => res.status(200).send(r))
+    .find({})
+    .then((r) => res.status(200).send(r))
+    .catch(next)
 }
 
 function createMovie(req, res) {
-  const owner = req.user.id;
+  const owner = req.user.id
 
-  const { country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId } = req.body;
+  const {
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailer,
+    nameRU,
+    nameEN,
+    thumbnail,
+    movieId,
+  } = req.body
 
   return cardSchema
-  .create({ country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId, owner })
-  .then((r) => res.status(201).send(r))
+    .create({
+      country,
+      director,
+      duration,
+      year,
+      description,
+      image,
+      trailer,
+      nameRU,
+      nameEN,
+      thumbnail,
+      movieId,
+      owner,
+    })
+    .then((r) => res.status(201).send(r))
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError('Неверные данные'))
+      } else {
+        next(err)
+      }
+    })
 }
 
 function deleteMovie(req, res) {
-  const owner = req.user.id;
-  const movie = req.params.movieId;
+  const owner = req.user.id
+  const movie = req.params.movieId
 
-  return cardSchema
-  .findByIdAndDelete(movie)
-  .then((r) => {
+  return cardSchema.findByIdAndDelete(movie).then((r) => {
     if (!r) {
-      console.log('Фильм не найден')
+      throw new NotFoundError('Фильм не найден')
     }
 
     if (r.owner.toString() !== owner) {
-      console.log('Нельзя удалить чужой фильм');
+      throw new ForbiddenError('Нельзя удалить чужой фильм')
     } else {
-      return res.status(200).send(r);
+      return res.status(200).send(r)
+    }
+  }).catch((err) => {
+    if (err.name === 'CastError') {
+      next(new BadRequestError('Неверный id'))
+    } else {
+      next(err)
     }
   })
 }
@@ -38,5 +78,5 @@ function deleteMovie(req, res) {
 module.exports = {
   getMovies,
   createMovie,
-  deleteMovie
+  deleteMovie,
 }
