@@ -14,15 +14,15 @@ const userSchema = new mongoose.Schema({
     unique: true,
     validate: {
       validator: (v) => validator.isEmail(v),
-      message: 'Некорректный адрес email'
-    }
+      message: 'Некорректный адрес email',
+    },
   },
   password: {
     type: String,
     required: [true, 'Поле "Пароль" должно быть заполнено'],
     minlength: [6, 'Минимальная длина поля "Пароль" - 6 символов'],
-    select: false
-  }
+    select: false,
+  },
 }, { versionKey: false });
 
 module.exports = mongoose.model('user', userSchema);
