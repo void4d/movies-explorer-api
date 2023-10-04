@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
+
+const imageRegExp = /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,6}([-a-zA-Z0-9@:%_+.~#?&//=]*)\.(jpg|jpeg|png|gif|bmp)$/;
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -24,14 +27,24 @@ const movieSchema = new mongoose.Schema({
   image: {
     type: String,
     required: [true, 'Поле "Постер" должно быть заполнено'],
+    validate: {
+      validator: (v) => imageRegExp.test(v),
+    },
   },
   trailerLink: {
     type: String,
     required: [true, 'Поле "Ссылка на трейлер" должно быть заполнено'],
+    validate: {
+      validator: (v) => validator.isURL(v),
+      message: 'Некорректный URL',
+    },
   },
   thumbnail: {
     type: String,
     required: [true, 'Поле "Превью" должно быть заполнено'],
+    validate: {
+      validator: (v) => imageRegExp.test(v),
+    },
   },
   owner: mongoose.Schema.Types.ObjectId,
   movieId: {

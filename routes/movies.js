@@ -13,7 +13,7 @@ router.post('/movies', celebrate({
     year: Joi.string().required().regex(/^\d{4}$/).max(new Date().getFullYear()),
     description: Joi.string().required(),
     image: Joi.string().required().regex(imageRegExp),
-    trailerLink: Joi.string().required(),
+    trailerLink: Joi.string().required().uri(),
     thumbnail: Joi.string().required().regex(imageRegExp),
     movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
