@@ -11,7 +11,7 @@ const { JWT_KEY = 'secret' } = process.env;
 
 function getUsers(req, res, next) {
   return userSchema
-    .find()
+    .find({})
     .then((r) => res.status(200).send(r))
     .catch(next);
 }

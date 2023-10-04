@@ -4,8 +4,10 @@ const BadRequestError = require('../errors/bad-request-err');
 const ForbiddenError = require('../errors/forbidden-err');
 
 function getMovies(req, res, next) {
+  const owner = req.user.id;
+
   return movieSchema
-    .find({})
+    .find({ owner })
     .then((r) => res.status(200).send(r))
     .catch(next);
 }
