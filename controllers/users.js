@@ -9,14 +9,14 @@ const BadRequestError = require('../errors/bad-request-err')
 
 const { JWT_KEY = 'secret' } = process.env;
 
-function getUsers(req, res) {
+function getUsers(req, res, next) {
   return userSchema
   .find()
   .then((r) => res.status(200).send(r))
   .catch(next)
 }
 
-function getUserById(req, res) {
+function getUserById(req, res, next) {
   const { userId } = req.params;
 
   return userSchema
@@ -36,7 +36,7 @@ function getUserById(req, res) {
   })
 }
 
-function getMyProfile(req, res) {
+function getMyProfile(req, res, next) {
   const id = req.user.id;
 
   return userSchema
@@ -54,7 +54,7 @@ function getMyProfile(req, res) {
   })
 }
 
-function createUser(req, res) {
+function createUser(req, res, next) {
   const { name, email, password } = req.body;
 
   bcrypt.hash(password, 10, (error, hash) => {
@@ -73,7 +73,7 @@ function createUser(req, res) {
   })
 }
 
-function updateUser(req, res) {
+function updateUser(req, res, next) {
   const { name, email } = req.body;
 
   return userSchema
@@ -88,7 +88,7 @@ function updateUser(req, res) {
   })
 }
 
-function login(req, res) {
+function login(req, res, next) {
   const { email, password } = req.body;
 
   if (!email || !password) {

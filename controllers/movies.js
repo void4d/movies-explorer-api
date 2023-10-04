@@ -10,7 +10,7 @@ function getMovies(req, res, next) {
     .catch(next)
 }
 
-function createMovie(req, res) {
+function createMovie(req, res, next) {
   const owner = req.user.id
 
   const {
@@ -52,7 +52,7 @@ function createMovie(req, res) {
     })
 }
 
-function deleteMovie(req, res) {
+function deleteMovie(req, res, next) {
   const owner = req.user.id
   const movie = req.params.movieId
 
