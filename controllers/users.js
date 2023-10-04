@@ -80,6 +80,8 @@ function updateUser(req, res, next) {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Неверные данные'));
+      } else if (err.code === 11000) {
+        next(new ConflictError('Email уже используется'));
       } else {
         next(err);
       }
