@@ -22,7 +22,7 @@ function createMovie(req, res, next) {
     year,
     description,
     image,
-    trailer,
+    trailerLink,
     nameRU,
     nameEN,
     thumbnail,
@@ -37,7 +37,7 @@ function createMovie(req, res, next) {
       year,
       description,
       image,
-      trailer,
+      trailerLink,
       nameRU,
       nameEN,
       thumbnail,
@@ -56,7 +56,7 @@ function createMovie(req, res, next) {
 
 function deleteMovie(req, res, next) {
   const owner = req.user.id;
-  const movie = req.params.movieId;
+  const movie = req.params.id;
 
   return movieSchema.findByIdAndDelete(movie).then((r) => {
     if (!r) {
