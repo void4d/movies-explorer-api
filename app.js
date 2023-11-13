@@ -16,7 +16,11 @@ const { PORT = 3000, DB_URL = 'mongodb://localhost:27017/bitfilmsdb', NODE_ENV }
 const app = express()
 
 app.use(express.json())
-app.use(cors())
+app.use(
+  cors({
+    origin: `http://localhost:${PORT}`,
+  })
+)
 app.use(helmet())
 app.disable('x-powered-by')
 
