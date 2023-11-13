@@ -18,7 +18,7 @@ const app = express()
 app.use(express.json())
 app.use(
   cors({
-    origin: ['https://void4d-movie-explorer.nomoredomainsmonster.ru', 'http://localhost:3001'],
+    origin: ['https://void4d-movie-explorer.nomoredomainsmonster.ru', 'http://localhost:3000'],
   })
 )
 app.use(helmet())
